@@ -1,0 +1,419 @@
+# Part A - Database & Table Creation:
+
+mysql> create database company_db;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use company_db;
+Database changed
+mysql> create table employees(employee_id int primary key, employee_name varchar(100), department varchar(50), salary decimal(10,2), city varchar(50), joining_date date, status varchar(20));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> desc company_db;
+ERROR 1146 (42S02): Table 'company_db.company_db' doesn't exist
+mysql> describe company_db;
+ERROR 1146 (42S02): Table 'company_db.company_db' doesn't exist
+mysql> describe employees;
++---------------+---------------+------+-----+---------+-------+
+| Field         | Type          | Null | Key | Default | Extra |
++---------------+---------------+------+-----+---------+-------+
+| employee_id   | int           | NO   | PRI | NULL    |       |
+| employee_name | varchar(100)  | YES  |     | NULL    |       |
+| department    | varchar(50)   | YES  |     | NULL    |       |
+| salary        | decimal(10,2) | YES  |     | NULL    |       |
+| city          | varchar(50)   | YES  |     | NULL    |       |
+| joining_date  | date          | YES  |     | NULL    |       |
+| status        | varchar(20)   | YES  |     | NULL    |       |
++---------------+---------------+------+-----+---------+-------+
+7 rows in set (0.06 sec)
+
+mysql> show tables;
++----------------------+
+| Tables_in_company_db |
++----------------------+
+| employees            |
++----------------------+
+1 row in set (0.04 sec)
+
+# Part B - INSERT Operations:
+
+mysql> insert into employees values(101, Rahul Patil, Development, 45000, Pune, 2026-01-10, Active);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Patil, Development, 45000, Pune, 2026-01-10, Active)' at line 1
+mysql> insert into employees values(101, 'Rahul Patil', 'Development', 45000, 'Pune', '2026-01-10', 'Active');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into employees values(102, 'Priya Sharma', 'Testing', 52000, 'Mumbai', '2026-02-15', 'Active');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into employees values(103, 'Amit Joshi', 'Development', 52000, 'Pune', '2025-12-05', 'Active');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employees values(104, 'Sneha Kulkarni', 'HR', 35000, 'Nashik', '2026-03-20', 'Active');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into employees values(105, 'Rohan Deshmukh', 'Support', 30000, 'Mumbai', '2026-04-01', 'Inactive');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into employees values(106, 'Anjali More', 'Testing', 42000, 'Pune', '2026-05-12', 'Active');
+Query OK, 1 row affected (0.05 sec)
+
+# Part C - Basic SELECT Queries:
+
+
+mysql> select * from employees;
++-------------+----------------+-------------+----------+--------+--------------+----------+
+| employee_id | employee_name  | department  | salary   | city   | joining_date | status   |
++-------------+----------------+-------------+----------+--------+--------------+----------+
+|         101 | Rahul Patil    | Development | 45000.00 | Pune   | 2026-01-10   | Active   |
+|         102 | Priya Sharma   | Testing     | 52000.00 | Mumbai | 2026-02-15   | Active   |
+|         103 | Amit Joshi     | Development | 52000.00 | Pune   | 2025-12-05   | Active   |
+|         104 | Sneha Kulkarni | HR          | 35000.00 | Nashik | 2026-03-20   | Active   |
+|         105 | Rohan Deshmukh | Support     | 30000.00 | Mumbai | 2026-04-01   | Inactive |
+|         106 | Anjali More    | Testing     | 42000.00 | Pune   | 2026-05-12   | Active   |
++-------------+----------------+-------------+----------+--------+--------------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select employee_name from employees;
++----------------+
+| employee_name  |
++----------------+
+| Rahul Patil    |
+| Priya Sharma   |
+| Amit Joshi     |
+| Sneha Kulkarni |
+| Rohan Deshmukh |
+| Anjali More    |
++----------------+
+6 rows in set (0.00 sec)
+
+mysql> select employee_name, salary from employees;
++----------------+----------+
+| employee_name  | salary   |
++----------------+----------+
+| Rahul Patil    | 45000.00 |
+| Priya Sharma   | 52000.00 |
+| Amit Joshi     | 52000.00 |
+| Sneha Kulkarni | 35000.00 |
+| Rohan Deshmukh | 30000.00 |
+| Anjali More    | 42000.00 |
++----------------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select employee_name, department, city from employees;
++----------------+-------------+--------+
+| employee_name  | department  | city   |
++----------------+-------------+--------+
+| Rahul Patil    | Development | Pune   |
+| Priya Sharma   | Testing     | Mumbai |
+| Amit Joshi     | Development | Pune   |
+| Sneha Kulkarni | HR          | Nashik |
+| Rohan Deshmukh | Support     | Mumbai |
+| Anjali More    | Testing     | Pune   |
++----------------+-------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from employees where city='Pune';
++-------------+---------------+-------------+----------+------+--------------+--------+
+| employee_id | employee_name | department  | salary   | city | joining_date | status |
++-------------+---------------+-------------+----------+------+--------------+--------+
+|         101 | Rahul Patil   | Development | 45000.00 | Pune | 2026-01-10   | Active |
+|         103 | Amit Joshi    | Development | 52000.00 | Pune | 2025-12-05   | Active |
+|         106 | Anjali More   | Testing     | 42000.00 | Pune | 2026-05-12   | Active |
++-------------+---------------+-------------+----------+------+--------------+--------+
+3 rows in set (0.04 sec)
+
+mysql> select * from employees where city='Mumbai';
++-------------+----------------+------------+----------+--------+--------------+----------+
+| employee_id | employee_name  | department | salary   | city   | joining_date | status   |
++-------------+----------------+------------+----------+--------+--------------+----------+
+|         102 | Priya Sharma   | Testing    | 52000.00 | Mumbai | 2026-02-15   | Active   |
+|         105 | Rohan Deshmukh | Support    | 30000.00 | Mumbai | 2026-04-01   | Inactive |
++-------------+----------------+------------+----------+--------+--------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employees where department='Development';
++-------------+---------------+-------------+----------+------+--------------+--------+
+| employee_id | employee_name | department  | salary   | city | joining_date | status |
++-------------+---------------+-------------+----------+------+--------------+--------+
+|         101 | Rahul Patil   | Development | 45000.00 | Pune | 2026-01-10   | Active |
+|         103 | Amit Joshi    | Development | 52000.00 | Pune | 2025-12-05   | Active |
++-------------+---------------+-------------+----------+------+--------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employees where department='Testing';
++-------------+---------------+------------+----------+--------+--------------+--------+
+| employee_id | employee_name | department | salary   | city   | joining_date | status |
++-------------+---------------+------------+----------+--------+--------------+--------+
+|         102 | Priya Sharma  | Testing    | 52000.00 | Mumbai | 2026-02-15   | Active |
+|         106 | Anjali More   | Testing    | 42000.00 | Pune   | 2026-05-12   | Active |
++-------------+---------------+------------+----------+--------+--------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employees where status='Active';
++-------------+----------------+-------------+----------+--------+--------------+--------+
+| employee_id | employee_name  | department  | salary   | city   | joining_date | status |
++-------------+----------------+-------------+----------+--------+--------------+--------+
+|         101 | Rahul Patil    | Development | 45000.00 | Pune   | 2026-01-10   | Active |
+|         102 | Priya Sharma   | Testing     | 52000.00 | Mumbai | 2026-02-15   | Active |
+|         103 | Amit Joshi     | Development | 52000.00 | Pune   | 2025-12-05   | Active |
+|         104 | Sneha Kulkarni | HR          | 35000.00 | Nashik | 2026-03-20   | Active |
+|         106 | Anjali More    | Testing     | 42000.00 | Pune   | 2026-05-12   | Active |
++-------------+----------------+-------------+----------+--------+--------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from employees where status='Inactive';
++-------------+----------------+------------+----------+--------+--------------+----------+
+| employee_id | employee_name  | department | salary   | city   | joining_date | status   |
++-------------+----------------+------------+----------+--------+--------------+----------+
+|         105 | Rohan Deshmukh | Support    | 30000.00 | Mumbai | 2026-04-01   | Inactive |
++-------------+----------------+------------+----------+--------+--------------+----------+
+1 row in set (0.00 sec)
+
+mysql> select * from employees where employee_id= 103;
++-------------+---------------+-------------+----------+------+--------------+--------+
+| employee_id | employee_name | department  | salary   | city | joining_date | status |
++-------------+---------------+-------------+----------+------+--------------+--------+
+|         103 | Amit Joshi    | Development | 52000.00 | Pune | 2025-12-05   | Active |
++-------------+---------------+-------------+----------+------+--------------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from employees where employee_name= 'Priya Sharma';
++-------------+---------------+------------+----------+--------+--------------+--------+
+| employee_id | employee_name | department | salary   | city   | joining_date | status |
++-------------+---------------+------------+----------+--------+--------------+--------+
+|         102 | Priya Sharma  | Testing    | 52000.00 | Mumbai | 2026-02-15   | Active |
++-------------+---------------+------------+----------+--------+--------------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from employees where salary>=40000;
++-------------+---------------+-------------+----------+--------+--------------+--------+
+| employee_id | employee_name | department  | salary   | city   | joining_date | status |
++-------------+---------------+-------------+----------+--------+--------------+--------+
+|         101 | Rahul Patil   | Development | 45000.00 | Pune   | 2026-01-10   | Active |
+|         102 | Priya Sharma  | Testing     | 52000.00 | Mumbai | 2026-02-15   | Active |
+|         103 | Amit Joshi    | Development | 52000.00 | Pune   | 2025-12-05   | Active |
+|         106 | Anjali More   | Testing     | 42000.00 | Pune   | 2026-05-12   | Active |
++-------------+---------------+-------------+----------+--------+--------------+--------+
+4 rows in set (0.04 sec)
+
+mysql> select * from employees where salary<=40000;
++-------------+----------------+------------+----------+--------+--------------+----------+
+| employee_id | employee_name  | department | salary   | city   | joining_date | status   |
++-------------+----------------+------------+----------+--------+--------------+----------+
+|         104 | Sneha Kulkarni | HR         | 35000.00 | Nashik | 2026-03-20   | Active   |
+|         105 | Rohan Deshmukh | Support    | 30000.00 | Mumbai | 2026-04-01   | Inactive |
++-------------+----------------+------------+----------+--------+--------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employees where salary=35000;
++-------------+----------------+------------+----------+--------+--------------+--------+
+| employee_id | employee_name  | department | salary   | city   | joining_date | status |
++-------------+----------------+------------+----------+--------+--------------+--------+
+|         104 | Sneha Kulkarni | HR         | 35000.00 | Nashik | 2026-03-20   | Active |
++-------------+----------------+------------+----------+--------+--------------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from employees where salary>=42000;
++-------------+---------------+-------------+----------+--------+--------------+--------+
+| employee_id | employee_name | department  | salary   | city   | joining_date | status |
++-------------+---------------+-------------+----------+--------+--------------+--------+
+|         101 | Rahul Patil   | Development | 45000.00 | Pune   | 2026-01-10   | Active |
+|         102 | Priya Sharma  | Testing     | 52000.00 | Mumbai | 2026-02-15   | Active |
+|         103 | Amit Joshi    | Development | 52000.00 | Pune   | 2025-12-05   | Active |
+|         106 | Anjali More   | Testing     | 42000.00 | Pune   | 2026-05-12   | Active |
++-------------+---------------+-------------+----------+--------+--------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employees where city='Pune' and status='Active';
++-------------+---------------+-------------+----------+------+--------------+--------+
+| employee_id | employee_name | department  | salary   | city | joining_date | status |
++-------------+---------------+-------------+----------+------+--------------+--------+
+|         101 | Rahul Patil   | Development | 45000.00 | Pune | 2026-01-10   | Active |
+|         103 | Amit Joshi    | Development | 52000.00 | Pune | 2025-12-05   | Active |
+|         106 | Anjali More   | Testing     | 42000.00 | Pune | 2026-05-12   | Active |
++-------------+---------------+-------------+----------+------+--------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from employees where department='Development' and salary>=45000;
++-------------+---------------+-------------+----------+------+--------------+--------+
+| employee_id | employee_name | department  | salary   | city | joining_date | status |
++-------------+---------------+-------------+----------+------+--------------+--------+
+|         101 | Rahul Patil   | Development | 45000.00 | Pune | 2026-01-10   | Active |
+|         103 | Amit Joshi    | Development | 52000.00 | Pune | 2025-12-05   | Active |
++-------------+---------------+-------------+----------+------+--------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employees where city='Mumbai' and city='Pune';
+Empty set (0.00 sec)
+
+mysql> select * from employees where city='Mumbai' or city='Pune';
++-------------+----------------+-------------+----------+--------+--------------+----------+
+| employee_id | employee_name  | department  | salary   | city   | joining_date | status   |
++-------------+----------------+-------------+----------+--------+--------------+----------+
+|         101 | Rahul Patil    | Development | 45000.00 | Pune   | 2026-01-10   | Active   |
+|         102 | Priya Sharma   | Testing     | 52000.00 | Mumbai | 2026-02-15   | Active   |
+|         103 | Amit Joshi     | Development | 52000.00 | Pune   | 2025-12-05   | Active   |
+|         105 | Rohan Deshmukh | Support     | 30000.00 | Mumbai | 2026-04-01   | Inactive |
+|         106 | Anjali More    | Testing     | 42000.00 | Pune   | 2026-05-12   | Active   |
++-------------+----------------+-------------+----------+--------+--------------+----------+
+5 rows in set (0.00 sec)
+
+# Part D - UPDATE Operations:
+
+
+mysql> update employees set salary=48000 where employee_id=101;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employees set staus='Inactive' where employee_name='Rohan Deshmukh';
+ERROR 1054 (42S22): Unknown column 'staus' in 'field list'
+mysql> update employees set status='Inactive' where employee_name='Rohan Deshmukh';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> update employees set city='Pune' where employee_name='Snehal Kulkarni';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employees set department='Development' where employee_name='priya sharma';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employees set salary=45000 where employee_id=106;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE employees
+    -> SET salary = 45000
+    -> WHERE employee_id=106;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> update employees set salary=45000 where employee_id=106;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> update employees set salary+=2000 where department='Testing';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+=2000 where department='Testing'' at line 1
+mysql> UPDATE employees
+    -> SET salary = salary + 2000
+    -> WHERE department = 'Testing';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE employees
+    -> SET city = 'Mumbai Branch'
+    -> WHERE city = 'Mumbai';
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+#Part E - DELETE Operations:
+
+
+mysql> delete from employees where employee_id=106;
+Query OK, 1 row affected (0.05 sec)
+
+mysql> delete from employees where employee_name='Rohan Deshmukh';
+Query OK, 1 row affected (0.05 sec)
+
+mysql> delete from employees where status='Inactive';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from employees where salary<30000;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from employees where employee_id=104;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from employees;
++-------------+---------------+-------------+----------+---------------+--------------+--------+
+| employee_id | employee_name | department  | salary   | city          | joining_date | status |
++-------------+---------------+-------------+----------+---------------+--------------+--------+
+|         101 | Rahul Patil   | Development | 48000.00 | Pune          | 2026-01-10   | Active |
+|         102 | Priya Sharma  | Development | 52000.00 | Mumbai Branch | 2026-02-15   | Active |
+|         103 | Amit Joshi    | Development | 52000.00 | Pune          | 2025-12-05   | Active |
++-------------+---------------+-------------+----------+---------------+--------------+--------+
+3 rows in set (0.00 sec)
+
+#Part F - ALTER TABLE / DDL Practice:
+
+
+mysql> alter table employees add column email varchar(100);
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employees add column mobile varchar(15);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employees modify city varchar(100);
+Query OK, 3 rows affected (0.17 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> alter table employees rename column employee_name to name;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employees drop column mobile;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employees add column experience int;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update employees set experience= 3 where employee_id=101;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> describe table employees;
++----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------+
+| id | select_type | table     | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra |
++----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------+
+|  1 | SIMPLE      | employees | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    3 |   100.00 | NULL  |
++----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------+
+1 row in set, 1 warning (0.01 sec)
+
+mysql> select * from employees;
++-------------+--------------+-------------+----------+---------------+--------------+--------+-------+------------+
+| employee_id | name         | department  | salary   | city          | joining_date | status | email | experience |
++-------------+--------------+-------------+----------+---------------+--------------+--------+-------+------------+
+|         101 | Rahul Patil  | Development | 48000.00 | Pune          | 2026-01-10   | Active | NULL  |          3 |
+|         102 | Priya Sharma | Development | 52000.00 | Mumbai Branch | 2026-02-15   | Active | NULL  |       NULL |
+|         103 | Amit Joshi   | Development | 52000.00 | Pune          | 2025-12-05   | Active | NULL  |       NULL |
++-------------+--------------+-------------+----------+---------------+--------------+--------+-------+------------+
+3 rows in set (0.00 sec)
+
+# Part G - Table-Level DDL Practice:
+
+mysql> alter table departments rename to company_departments;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> describe table company_departments;
++----+-------------+---------------------+------------+------+---------------+------+---------+------+------+----------+-------+
+| id | select_type | table               | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra |
++----+-------------+---------------------+------------+------+---------------+------+---------+------+------+----------+-------+
+|  1 | SIMPLE      | company_departments | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    4 |   100.00 | NULL  |
++----+-------------+---------------------+------------+------+---------------+------+---------+------+------+----------+-------+
+1 row in set, 1 warning (0.04 sec)
+
+mysql> truncate table company_departments;
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> describe table company_departments;
++----+-------------+---------------------+------------+------+---------------+------+---------+------+------+----------+-------+
+| id | select_type | table               | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra |
++----+-------------+---------------------+------------+------+---------------+------+---------+------+------+----------+-------+
+|  1 | SIMPLE      | company_departments | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    1 |   100.00 | NULL  |
++----+-------------+---------------------+------------+------+---------------+------+---------+------+------+----------+-------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> drop table company_departments;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show tables;
++----------------------+
+| Tables_in_company_db |
++----------------------+
+| employees            |
++----------------------+
+1 row in set (0.00 sec)
