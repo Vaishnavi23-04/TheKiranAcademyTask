@@ -1,0 +1,443 @@
+# Part A - Database & Table Creation:
+
+
+mysql> create database ecommerce_db;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> create table products(peoduct_id int primary key, product_name varchar(100), category varchar(50), brand varchar(50), price decimal(10,2), quantity int, city varchar(50), status varchar(50));
+ERROR 1046 (3D000): No database selected
+mysql> use ecommerce_db;
+Database changed
+mysql> create table products(peoduct_id int primary key, product_name varchar(100), category varchar(50), brand varchar(50), price decimal(10,2), quantity int, city varchar(50), status varchar(50));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> describe products;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| peoduct_id   | int           | NO   | PRI | NULL    |       |
+| product_name | varchar(100)  | YES  |     | NULL    |       |
+| category     | varchar(50)   | YES  |     | NULL    |       |
+| brand        | varchar(50)   | YES  |     | NULL    |       |
+| price        | decimal(10,2) | YES  |     | NULL    |       |
+| quantity     | int           | YES  |     | NULL    |       |
+| city         | varchar(50)   | YES  |     | NULL    |       |
+| status       | varchar(50)   | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> show tables;
++------------------------+
+| Tables_in_ecommerce_db |
++------------------------+
+| products               |
++------------------------+
+1 row in set (0.01 sec)
+
+# Part B - INSERT Operations: 
+
+
+
+mysql> insert into products values(201, 'Galaxy M55', 'Mobile', 'Samsung', 32000, 15, 'Pune', 'Available');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into products values(202, 'iPhone 15', 'Mobile', 'Apple', 65000, 8, 'Mumbai', 'Available');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into products values(203, 'Moto Edge 50', 'Mobile', 'Motorola', 28000, 20, 'Pune', 'Available');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into products values(204, 'Inspiron 15', 'Laptop', 'Dell', 58000, 6, 'Nashik', 'Available');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into products values(205, 'IdeaPad Slim 3', 'Laptop', 'Lenovo', 45000, 12, 'Mumbai', 'Available');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into products values(206, 'Galaxy Watch 6', 'Watch', 'Samsung', 22000, 4, 'Pune', 'Out of Stock');
+Query OK, 1 row affected (0.01 sec)
+
+# Part C - Basic SELECT & Operator Practice:
+
+mysql> select * from products
+    -> ;
++------------+----------------+----------+----------+----------+----------+--------+--------------+
+| peoduct_id | product_name   | category | brand    | price    | quantity | city   | status       |
++------------+----------------+----------+----------+----------+----------+--------+--------------+
+|        201 | Galaxy M55     | Mobile   | Samsung  | 32000.00 |       15 | Pune   | Available    |
+|        202 | iPhone 15      | Mobile   | Apple    | 65000.00 |        8 | Mumbai | Available    |
+|        203 | Moto Edge 50   | Mobile   | Motorola | 28000.00 |       20 | Pune   | Available    |
+|        204 | Inspiron 15    | Laptop   | Dell     | 58000.00 |        6 | Nashik | Available    |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo   | 45000.00 |       12 | Mumbai | Available    |
+|        206 | Galaxy Watch 6 | Watch    | Samsung  | 22000.00 |        4 | Pune   | Out of Stock |
++------------+----------------+----------+----------+----------+----------+--------+--------------+
+6 rows in set (0.00 sec)
+
+
+mysql> select * from products where city='mumbai';
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand  | price    | quantity | city   | status    |
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+|        202 | iPhone 15      | Mobile   | Apple  | 65000.00 |        8 | Mumbai | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from products where category='mobile';
++------------+--------------+----------+----------+----------+----------+--------+-----------+
+| peoduct_id | product_name | category | brand    | price    | quantity | city   | status    |
++------------+--------------+----------+----------+----------+----------+--------+-----------+
+|        201 | Galaxy M55   | Mobile   | Samsung  | 32000.00 |       15 | Pune   | Available |
+|        202 | iPhone 15    | Mobile   | Apple    | 65000.00 |        8 | Mumbai | Available |
+|        203 | Moto Edge 50 | Mobile   | Motorola | 28000.00 |       20 | Pune   | Available |
++------------+--------------+----------+----------+----------+----------+--------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from products where category='laptop';
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand  | price    | quantity | city   | status    |
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+|        204 | Inspiron 15    | Laptop   | Dell   | 58000.00 |        6 | Nashik | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from products where price > 30000;
++------------+----------------+----------+---------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand   | price    | quantity | city   | status    |
++------------+----------------+----------+---------+----------+----------+--------+-----------+
+|        201 | Galaxy M55     | Mobile   | Samsung | 32000.00 |       15 | Pune   | Available |
+|        202 | iPhone 15      | Mobile   | Apple   | 65000.00 |        8 | Mumbai | Available |
+|        204 | Inspiron 15    | Laptop   | Dell    | 58000.00 |        6 | Nashik | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo  | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+---------+----------+----------+--------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from products where price < 30000;
++------------+----------------+----------+----------+----------+----------+------+--------------+
+| peoduct_id | product_name   | category | brand    | price    | quantity | city | status       |
++------------+----------------+----------+----------+----------+----------+------+--------------+
+|        203 | Moto Edge 50   | Mobile   | Motorola | 28000.00 |       20 | Pune | Available    |
+|        206 | Galaxy Watch 6 | Watch    | Samsung  | 22000.00 |        4 | Pune | Out of Stock |
++------------+----------------+----------+----------+----------+----------+------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from products where price = 35000;
+Empty set (0.00 sec)
+
+mysql> select * from products where price >= 45000;
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand  | price    | quantity | city   | status    |
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+|        202 | iPhone 15      | Mobile   | Apple  | 65000.00 |        8 | Mumbai | Available |
+|        204 | Inspiron 15    | Laptop   | Dell   | 58000.00 |        6 | Nashik | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from products where price <= 30000;
++------------+----------------+----------+----------+----------+----------+------+--------------+
+| peoduct_id | product_name   | category | brand    | price    | quantity | city | status       |
++------------+----------------+----------+----------+----------+----------+------+--------------+
+|        203 | Moto Edge 50   | Mobile   | Motorola | 28000.00 |       20 | Pune | Available    |
+|        206 | Galaxy Watch 6 | Watch    | Samsung  | 22000.00 |        4 | Pune | Out of Stock |
++------------+----------------+----------+----------+----------+----------+------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from products where quantity>10;
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand    | price    | quantity | city   | status    |
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+|        201 | Galaxy M55     | Mobile   | Samsung  | 32000.00 |       15 | Pune   | Available |
+|        203 | Moto Edge 50   | Mobile   | Motorola | 28000.00 |       20 | Pune   | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo   | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from products where quantity<10;
++------------+----------------+----------+---------+----------+----------+--------+--------------+
+| peoduct_id | product_name   | category | brand   | price    | quantity | city   | status       |
++------------+----------------+----------+---------+----------+----------+--------+--------------+
+|        202 | iPhone 15      | Mobile   | Apple   | 65000.00 |        8 | Mumbai | Available    |
+|        204 | Inspiron 15    | Laptop   | Dell    | 58000.00 |        6 | Nashik | Available    |
+|        206 | Galaxy Watch 6 | Watch    | Samsung | 22000.00 |        4 | Pune   | Out of Stock |
++------------+----------------+----------+---------+----------+----------+--------+--------------+
+3 rows in set (0.00 sec)
+
+# Part D - Logical Operators:
+
+
+mysql> select * from products where city='pune' and category='mobile';
++------------+--------------+----------+----------+----------+----------+------+-----------+
+| peoduct_id | product_name | category | brand    | price    | quantity | city | status    |
++------------+--------------+----------+----------+----------+----------+------+-----------+
+|        201 | Galaxy M55   | Mobile   | Samsung  | 32000.00 |       15 | Pune | Available |
+|        203 | Moto Edge 50 | Mobile   | Motorola | 28000.00 |       20 | Pune | Available |
++------------+--------------+----------+----------+----------+----------+------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from products where city='mumbai' and status='available';
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand  | price    | quantity | city   | status    |
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+|        202 | iPhone 15      | Mobile   | Apple  | 65000.00 |        8 | Mumbai | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from products where price>30000 and quantity>5;
++------------+----------------+----------+---------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand   | price    | quantity | city   | status    |
++------------+----------------+----------+---------+----------+----------+--------+-----------+
+|        201 | Galaxy M55     | Mobile   | Samsung | 32000.00 |       15 | Pune   | Available |
+|        202 | iPhone 15      | Mobile   | Apple   | 65000.00 |        8 | Mumbai | Available |
+|        204 | Inspiron 15    | Laptop   | Dell    | 58000.00 |        6 | Nashik | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo  | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+---------+----------+----------+--------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from products where price>=30000 and price <=60000;
++------------+----------------+----------+---------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand   | price    | quantity | city   | status    |
++------------+----------------+----------+---------+----------+----------+--------+-----------+
+|        201 | Galaxy M55     | Mobile   | Samsung | 32000.00 |       15 | Pune   | Available |
+|        204 | Inspiron 15    | Laptop   | Dell    | 58000.00 |        6 | Nashik | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo  | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+---------+----------+----------+--------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from products where city='mumbai' or city='mumbai';
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand  | price    | quantity | city   | status    |
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+|        202 | iPhone 15      | Mobile   | Apple  | 65000.00 |        8 | Mumbai | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+2 rows in set (0.00 sec)
+
+# Part D - Logical Operators (Continued):
+
+
+mysql> select * from products where category='laptop' or category='mobile';
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand    | price    | quantity | city   | status    |
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+|        201 | Galaxy M55     | Mobile   | Samsung  | 32000.00 |       15 | Pune   | Available |
+|        202 | iPhone 15      | Mobile   | Apple    | 65000.00 |        8 | Mumbai | Available |
+|        203 | Moto Edge 50   | Mobile   | Motorola | 28000.00 |       20 | Pune   | Available |
+|        204 | Inspiron 15    | Laptop   | Dell     | 58000.00 |        6 | Nashik | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo   | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from products where quantity<10 or price>50000;
++------------+----------------+----------+---------+----------+----------+--------+--------------+
+| peoduct_id | product_name   | category | brand   | price    | quantity | city   | status       |
++------------+----------------+----------+---------+----------+----------+--------+--------------+
+|        202 | iPhone 15      | Mobile   | Apple   | 65000.00 |        8 | Mumbai | Available    |
+|        204 | Inspiron 15    | Laptop   | Dell    | 58000.00 |        6 | Nashik | Available    |
+|        206 | Galaxy Watch 6 | Watch    | Samsung | 22000.00 |        4 | Pune   | Out of Stock |
++------------+----------------+----------+---------+----------+----------+--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from products where category='mobile' and price>30000;
++------------+--------------+----------+---------+----------+----------+--------+-----------+
+| peoduct_id | product_name | category | brand   | price    | quantity | city   | status    |
++------------+--------------+----------+---------+----------+----------+--------+-----------+
+|        201 | Galaxy M55   | Mobile   | Samsung | 32000.00 |       15 | Pune   | Available |
+|        202 | iPhone 15    | Mobile   | Apple   | 65000.00 |        8 | Mumbai | Available |
++------------+--------------+----------+---------+----------+----------+--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from products where brand='samsung' or brand='apple';
++------------+----------------+----------+---------+----------+----------+--------+--------------+
+| peoduct_id | product_name   | category | brand   | price    | quantity | city   | status       |
++------------+----------------+----------+---------+----------+----------+--------+--------------+
+|        201 | Galaxy M55     | Mobile   | Samsung | 32000.00 |       15 | Pune   | Available    |
+|        202 | iPhone 15      | Mobile   | Apple   | 65000.00 |        8 | Mumbai | Available    |
+|        206 | Galaxy Watch 6 | Watch    | Samsung | 22000.00 |        4 | Pune   | Out of Stock |
++------------+----------------+----------+---------+----------+----------+--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from products where city='pune' and status='available' and quantity>10;
++------------+--------------+----------+----------+----------+----------+------+-----------+
+| peoduct_id | product_name | category | brand    | price    | quantity | city | status    |
++------------+--------------+----------+----------+----------+----------+------+-----------+
+|        201 | Galaxy M55   | Mobile   | Samsung  | 32000.00 |       15 | Pune | Available |
+|        203 | Moto Edge 50 | Mobile   | Motorola | 28000.00 |       20 | Pune | Available |
++------------+--------------+----------+----------+----------+----------+------+-----------+
+2 rows in set (0.00 sec)
+
+# Part E - Slightly Higher Operator Logic:
+
+
+mysql> select * from products where price between 25000 and 50000;
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand    | price    | quantity | city   | status    |
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+|        201 | Galaxy M55     | Mobile   | Samsung  | 32000.00 |       15 | Pune   | Available |
+|        203 | Moto Edge 50   | Mobile   | Motorola | 28000.00 |       20 | Pune   | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo   | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from products where quantity between 5 and 15;
++------------+----------------+----------+---------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand   | price    | quantity | city   | status    |
++------------+----------------+----------+---------+----------+----------+--------+-----------+
+|        201 | Galaxy M55     | Mobile   | Samsung | 32000.00 |       15 | Pune   | Available |
+|        202 | iPhone 15      | Mobile   | Apple   | 65000.00 |        8 | Mumbai | Available |
+|        204 | Inspiron 15    | Laptop   | Dell    | 58000.00 |        6 | Nashik | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo  | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+---------+----------+----------+--------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from products where category in ('mobile','laptop','tablet');
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand    | price    | quantity | city   | status    |
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+|        201 | Galaxy M55     | Mobile   | Samsung  | 32000.00 |       15 | Pune   | Available |
+|        202 | iPhone 15      | Mobile   | Apple    | 65000.00 |        8 | Mumbai | Available |
+|        203 | Moto Edge 50   | Mobile   | Motorola | 28000.00 |       20 | Pune   | Available |
+|        204 | Inspiron 15    | Laptop   | Dell     | 58000.00 |        6 | Nashik | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo   | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from products where city in ('pune','mumbai');
++------------+----------------+----------+----------+----------+----------+--------+--------------+
+| peoduct_id | product_name   | category | brand    | price    | quantity | city   | status       |
++------------+----------------+----------+----------+----------+----------+--------+--------------+
+|        201 | Galaxy M55     | Mobile   | Samsung  | 32000.00 |       15 | Pune   | Available    |
+|        202 | iPhone 15      | Mobile   | Apple    | 65000.00 |        8 | Mumbai | Available    |
+|        203 | Moto Edge 50   | Mobile   | Motorola | 28000.00 |       20 | Pune   | Available    |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo   | 45000.00 |       12 | Mumbai | Available    |
+|        206 | Galaxy Watch 6 | Watch    | Samsung  | 22000.00 |        4 | Pune   | Out of Stock |
++------------+----------------+----------+----------+----------+----------+--------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from products where brand !='samsung';
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand    | price    | quantity | city   | status    |
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+|        202 | iPhone 15      | Mobile   | Apple    | 65000.00 |        8 | Mumbai | Available |
+|        203 | Moto Edge 50   | Mobile   | Motorola | 28000.00 |       20 | Pune   | Available |
+|        204 | Inspiron 15    | Laptop   | Dell     | 58000.00 |        6 | Nashik | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo   | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from products where status !='out of stock';
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand    | price    | quantity | city   | status    |
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+|        201 | Galaxy M55     | Mobile   | Samsung  | 32000.00 |       15 | Pune   | Available |
+|        202 | iPhone 15      | Mobile   | Apple    | 65000.00 |        8 | Mumbai | Available |
+|        203 | Moto Edge 50   | Mobile   | Motorola | 28000.00 |       20 | Pune   | Available |
+|        204 | Inspiron 15    | Laptop   | Dell     | 58000.00 |        6 | Nashik | Available |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo   | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+----------+----------+----------+--------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from products where price != 30000;
++------------+----------------+----------+----------+----------+----------+--------+--------------+
+| peoduct_id | product_name   | category | brand    | price    | quantity | city   | status       |
++------------+----------------+----------+----------+----------+----------+--------+--------------+
+|        201 | Galaxy M55     | Mobile   | Samsung  | 32000.00 |       15 | Pune   | Available    |
+|        202 | iPhone 15      | Mobile   | Apple    | 65000.00 |        8 | Mumbai | Available    |
+|        203 | Moto Edge 50   | Mobile   | Motorola | 28000.00 |       20 | Pune   | Available    |
+|        204 | Inspiron 15    | Laptop   | Dell     | 58000.00 |        6 | Nashik | Available    |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo   | 45000.00 |       12 | Mumbai | Available    |
+|        206 | Galaxy Watch 6 | Watch    | Samsung  | 22000.00 |        4 | Pune   | Out of Stock |
++------------+----------------+----------+----------+----------+----------+--------+--------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from products where product_name like 'Galaxy%';
++------------+----------------+----------+---------+----------+----------+------+--------------+
+| peoduct_id | product_name   | category | brand   | price    | quantity | city | status       |
++------------+----------------+----------+---------+----------+----------+------+--------------+
+|        201 | Galaxy M55     | Mobile   | Samsung | 32000.00 |       15 | Pune | Available    |
+|        206 | Galaxy Watch 6 | Watch    | Samsung | 22000.00 |        4 | Pune | Out of Stock |
++------------+----------------+----------+---------+----------+----------+------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from products where product_name like '%pad%';
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+| peoduct_id | product_name   | category | brand  | price    | quantity | city   | status    |
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo | 45000.00 |       12 | Mumbai | Available |
++------------+----------------+----------+--------+----------+----------+--------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select * from products where category='mobile' and (price>30000 or quantity>15);
++------------+--------------+----------+----------+----------+----------+--------+-----------+
+| peoduct_id | product_name | category | brand    | price    | quantity | city   | status    |
++------------+--------------+----------+----------+----------+----------+--------+-----------+
+|        201 | Galaxy M55   | Mobile   | Samsung  | 32000.00 |       15 | Pune   | Available |
+|        202 | iPhone 15    | Mobile   | Apple    | 65000.00 |        8 | Mumbai | Available |
+|        203 | Moto Edge 50 | Mobile   | Motorola | 28000.00 |       20 | Pune   | Available |
++------------+--------------+----------+----------+----------+----------+--------+-----------+
+3 rows in set (0.00 sec)
+
+# Part F - UPDATE Operations:
+
+
+
+mysql> update products set price= 33000 where category='Galaxy M55';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update products set quantity= 12 where category='iPhone';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update products set status='available' where category='Galaxy M55';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update products set price=price+2000;
+Query OK, 6 rows affected (0.05 sec)
+Rows matched: 6  Changed: 6  Warnings: 0
+
+mysql> update products set quantity=quantity+5 where city='Pune';
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> update products set status='out of stock' where quantity<5;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select * from products;
++------------+----------------+----------+----------+----------+----------+--------+--------------+
+| peoduct_id | product_name   | category | brand    | price    | quantity | city   | status       |
++------------+----------------+----------+----------+----------+----------+--------+--------------+
+|        201 | Galaxy M55     | Mobile   | Samsung  | 34000.00 |       20 | Pune   | Available    |
+|        202 | iPhone 15      | Mobile   | Apple    | 67000.00 |        8 | Mumbai | Available    |
+|        203 | Moto Edge 50   | Mobile   | Motorola | 30000.00 |       25 | Pune   | Available    |
+|        204 | Inspiron 15    | Laptop   | Dell     | 60000.00 |        6 | Nashik | Available    |
+|        205 | IdeaPad Slim 3 | Laptop   | Lenovo   | 47000.00 |       12 | Mumbai | Available    |
+|        206 | Galaxy Watch 6 | Watch    | Samsung  | 24000.00 |        9 | Pune   | Out of Stock |
++------------+----------------+----------+----------+----------+----------+--------+--------------+
+6 rows in set (0.00 sec)
+
+# Part G - DELETE Operations:
+
+mysql> alter table products rename column peoduct_id to product_id;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> delete from products where product_id=210;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from products where price<80000;
+Query OK, 6 rows affected (0.05 sec)
+
+mysql> delete from products where status='out of stock' and quantity<5;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from products.category= 'tablet' where price>30000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 'tablet' where price>30000' at line 1
+mysql> DELETE FROM products WHERE category = 'Tablet' AND price > 30000;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from products;
+Empty set (0.00 sec)
